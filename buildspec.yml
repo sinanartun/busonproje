@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 112061248042.dkr.ecr.eu-west-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t busonproje .
+      - docker tag busonproje:latest 112061248042.dkr.ecr.eu-west-1.amazonaws.com/busonproje:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 112061248042.dkr.ecr.eu-west-1.amazonaws.com/busonproje:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"busonproje","imageUri":"112061248042.dkr.ecr.eu-west-1.amazonaws.com/busonproje:latest"}]' > imagedefinitions.json
+
+artifacts:
+  files: imagedefinitions.json
