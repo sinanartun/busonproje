@@ -10,5 +10,8 @@
     "busonproje"
   ],
   "author": "sinanartun",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1513.0"
+  }
 }
